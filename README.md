@@ -53,8 +53,8 @@ python server.py --debug
 ```bash
 python server.py --help 
 ```
-To see the arguments taken by server.py
-Arguments
+To see the arguments taken by server.py <br>
+Arguments:
 
 - debug: To start the server in edit mode (default: False)
 - HOST: The server is accesible only from the machine on which its executed, to avoid other users of the application from executing  
