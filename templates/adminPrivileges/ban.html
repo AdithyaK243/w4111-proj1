@@ -1,0 +1,33 @@
+{% extends 'adminLayout.html' %}
+  
+{% block title %}Tennis Tournament Management System{% endblock %}
+  
+{% block content %}
+
+<div class="row main">
+    <div class="main-login main-center">
+      <form method="post" action="/ban">
+        <h4>Select player to be banned</h1>
+        <select id="player" name="player" class="round">
+            <option>--player--</option> 
+            {% for player in data%}
+            <option value="{{player}}">{{player}}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <input type="submit" value="Ban" class="form-control btn btn-danger " name="">
+      </form>
+      {% with messages = get_flashed_messages()  %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-warning alert-dismissible">
+      <a href="/ban" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      {{message}}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+</div>
+    </div>
+
+{% endblock%}

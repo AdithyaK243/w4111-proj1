@@ -1,0 +1,133 @@
+{% extends 'adminLayout.html' %}
+  
+{% block title %}Tennis Tournament Management System{% endblock %}
+  
+{% block content %}
+<div class="container">
+    <div class="row main">
+     <div class="main-login main-center">
+      <h3> Enter Tournament Details </h3>
+      <form action="{{ url_for('createTour') }}" method="post" autocomplete="off"> 
+       <div class="form-group">
+        <label for="tournament_id" class="cols-sm-2 control-label">Tournament ID</label>
+        <div class="cols-sm-10">
+         <div class="input-group">
+          <span class="input-group-addon"><i class="fas fa-users" aria-hidden="true"></i></span>
+          <input type="text" class="form-control" name="tournament_id" id="tournament_id"  placeholder="Enter the tournament id"/>
+         </div>
+        </div>
+       </div>
+
+       <div class="form-group">
+        <label for="tournament_name" class="cols-sm-2 control-label">Tournament Name</label>
+        <div class="cols-sm-10">
+         <div class="input-group">
+          <span class="input-group-addon"><i class="fas fa-users" aria-hidden="true"></i></span>
+          <input type="text" class="form-control" name="tournament_name" id="tournament_name"  placeholder="Enter the tournament name"/>
+         </div>
+        </div>
+       </div>
+
+       <div class="form-group">
+        <label for="tournament_type" class="cols-sm-2 control-label">Tournament Type</label>
+        <div class="cols-sm-10">
+            <select id="tournament_type" name="tournament_type" class="round">
+                <option>--tournament type--</option> 
+                {% for id in data.type_id%}
+                <option value="{{id}}">{{id}}</option>
+                {% endfor %}
+            </select>
+        </div>
+       </div>
+
+       <div class="form-group">
+        <label for="location" class="cols-sm-2 control-label">Location</label>
+        <div class="cols-sm-10">
+         <div class="input-group">
+          <span class="input-group-addon"><i class="fas fa-globe" aria-hidden="true"></i></span>
+          <input type="text" class="form-control" name="location" id="location"  placeholder="Enter the location"/>
+         </div>
+        </div>
+       </div>
+
+       <div class="form-group">
+        <label for="stard_date" class="cols-sm-2 control-label">Start Date</label>
+        <div class="cols-sm-10">
+         <div class="input-group">
+          <span class="input-group-addon"><i class="fas fa-calendar" aria-hidden="true"></i></span>
+          <input type="date" class="form-control" name="start_date" id="start_date"  placeholder="Enter the start date"/>
+         </div>
+        </div>
+       </div>
+
+       <div class="form-group">
+        <label for="end_date" class="cols-sm-2 control-label">End Date</label>
+        <div class="cols-sm-10">
+         <div class="input-group">
+          <span class="input-group-addon"><i class="fas fa-calendar" aria-hidden="true"></i></span>
+          <input type="date" class="form-control" name="end_date" id="end_date"  placeholder="Enter the end date"/>
+         </div>
+        </div>
+       </div>
+  
+       <div class="form-group">
+        <label for="court_surface" class="cols-sm-2 control-label">Court Surface</label>
+        <div class="cols-sm-10">
+            <select id="court_surface" name="court_surface" class="round">
+                <option>--court surface--</option> 
+                {% for surface in data.surfaces%}
+                <option value="{{surface}}">{{surface}}</option>
+                {% endfor %}
+            </select>
+        </div>
+       </div>
+
+        <div class="form-group">
+            <label for="sponsor" class="cols-sm-2 control-label">Sponsor</label>
+            <div class="cols-sm-10">
+             <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" name="sponsor" id="sponsor"  placeholder="Enter the Sponsor"/>
+             </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="admin_incharge" class="cols-sm-2 control-label">Admin Incharge</label>
+            <div class="cols-sm-10">
+             <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" name="admin_incharge" id="admin_incharge"  value="{{data.admin_id}}"/>
+             </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="date_of_announcement" class="cols-sm-2 control-label">Date of Announcement</label>
+            <div class="cols-sm-10">
+             <div class="input-group">
+              <span class="input-group-addon"><i class="fas fa-calendar" aria-hidden="true"></i></span>
+              <input type="date" class="form-control" name="date_of_announcement" id="date_of_announcement"  value="{{data.date}}"/>
+             </div>
+            </div>
+        </div>
+
+       <div class="form-group ">
+         {% with messages = get_flashed_messages()  %}
+         {% if messages %}
+         {% for message in messages %}
+         <div class="alert alert-success alert-dismissible fade show" role="alert">
+           <a href="/createTour" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+           {{ message }}
+           </button>
+         </div>
+         {% endfor %}
+         {% endif %}
+         {% endwith %}
+        <input type="submit" value="Create" class="form-control btn btn-primary " name="">
+         
+       </div>
+         
+      </form>
+
+{% endblock%}
