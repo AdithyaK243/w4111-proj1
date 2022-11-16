@@ -17,7 +17,7 @@ XXX: The URI should be in the format of:
 
     postgresql://USER:PASSWORD@34.75.94.195/proj1part2
 
-For USER and PASSWORD contact us.
+For USER and PASSWORD credentials contact us.
 
 
 ## Directory setup
@@ -58,11 +58,7 @@ Arguments
 
 - debug: To start the server in edit mode (default: False)
 - HOST: The server is accesible only from the machine on which its executed, to avoid other users of the application from executing  
-        arbitary code on the host system.
-        
-        If the debugger is disabled or trust the users on the network, we can make the server publicly available simply by setting  HOST to 0.0.0.0
-        This tells your operating system to listen on all public IPs.
-        (default: 0.0.0.0)
+        arbitary code on the host system. If the debugger is disabled or trust the users on the network, we can make the server publicly available simply by setting  HOST to 0.0.0.0. This tells your operating system to listen on all public IPs. (default: 0.0.0.0)
 - PORT: The port onto which we want to deploy our webpage(default: 8111)
 
 ## Contact
