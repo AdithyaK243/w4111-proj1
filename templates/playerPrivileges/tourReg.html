@@ -1,0 +1,63 @@
+{% extends 'playerLayout.html' %}
+  
+{% block title %}Tennis Tournament Management System{% endblock %}
+  
+{% block content %}
+<h3> Player Dashboard</h3>
+<p>Welcome back, {{ dict.player_id}}!</p>
+<p> You can register for a tournament here: </p>
+<div class="container">
+    <div class="row main">
+     <div class="main-login main-center">
+      <form action="{{ url_for('tourReg') }}" method="post" autocomplete="off"> 
+       <div class="form-group">
+        <label for="player_id" class="cols-sm-2 control-label">Player ID</label>
+        <div class="cols-sm-10">
+         <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+          <input type="text" class="form-control" name="player_id" id="player_id"  value="{{dict.player_id}}"/>
+         </div>
+        </div>
+       </div>
+ 
+       <div class="form-group">
+         <label for="middle_initial" class="cols-sm-2 control-label">Tournament ID</label>
+         <div class="cols-sm-10">
+            <select id="tournament_id" name="tournament_id" class="round">
+                <option>--tournament id--</option> 
+                {% for tournament_id in dict.ids%}
+                <option value="{{tournament_id}}">{{tournament_id}}</option>
+                {% endfor %}
+            </select>
+         </div>
+        </div>
+ 
+        <div class="form-group">
+         <label for="category" class="cols-sm-2 control-label">Category (M/F)</label>
+         <div class="cols-sm-10">
+          <div class="input-group">
+           <span class="input-group-addon"><i class="fas fa-venus-mars" aria-hidden="true"></i></span>
+           <input type="text" class="form-control" name="category" id="category"  placeholder="Enter tournament category" maxlength="1"/>
+          </div>
+         </div>
+        </div>
+
+       <div class="form-group ">
+         {% with messages = get_flashed_messages()  %}
+         {% if messages %}
+         {% for message in messages %}
+         <div class="alert alert-success alert-dismissible fade show" role="alert">
+           <a href="/tourReg" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+           {{ message }}
+           </button>
+         </div>
+         {% endfor %}
+         {% endif %}
+         {% endwith %}
+        <input type="submit" value="Register" class="form-control btn btn-primary " name="">
+         
+       </div>
+         
+      </form>
+
+{% endblock%}

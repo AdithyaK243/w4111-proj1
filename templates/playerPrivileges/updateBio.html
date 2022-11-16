@@ -1,0 +1,91 @@
+{% extends 'playerLayout.html' %}
+  
+{% block title %}Tennis Tournament Management System{% endblock %}
+  
+{% block content %}
+<h3> Player Dashboard</h3>
+<p>Welcome back, {{ player.player_id}}!</p>
+<p> You can update your information here: </p>
+<div class="container">
+    <div class="row main">
+     <div class="main-login main-center">
+      <form action="{{ url_for('updateBio') }}" method="post" autocomplete="off"> 
+       <div class="form-group">
+        <label for="first_name" class="cols-sm-2 control-label">First Name</label>
+        <div class="cols-sm-10">
+         <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+          <input type="text" class="form-control" name="first_name" id="first_name"  value="{{player.first_name}}"/>
+         </div>
+        </div>
+       </div>
+ 
+       <div class="form-group">
+         <label for="middle_initial" class="cols-sm-2 control-label">Middle Name</label>
+         <div class="cols-sm-10">
+          <div class="input-group">
+           <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+           <input type="text" class="form-control" name="middle_initial" id="middle_initial"  value="{{player.middle_initial}}" maxlength="1"/>
+          </div>
+         </div>
+        </div>
+ 
+        <div class="form-group">
+         <label for="last_name" class="cols-sm-2 control-label">Last Name</label>
+         <div class="cols-sm-10">
+          <div class="input-group">
+           <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+           <input type="text" class="form-control" name="last_name" id="last_name"  value="{{player.last_name}}"/>
+          </div>
+         </div>
+        </div>
+   
+       <div class="form-group">
+        <label for="password" class="cols-sm-2 control-label">Password</label>
+        <div class="cols-sm-10">
+         <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+          <input type="password" class="form-control" name="password" placeholder="Password" id="password" required  value="{{player.password}}"/>
+         </div>
+        </div>
+       </div>
+ 
+       <div class="form-group">
+         <label for="gender" class="cols-sm-2 control-label">Gender</label>
+         <div class="cols-sm-10">
+          <div class="input-group">
+           <span class="input-group-addon"><i class="fas fa-genderless" aria-hidden="true"></i></span>
+           <input type="text" class="form-control" name="gender" id="gender" required  value="{{player.sex}}" maxlength="1"/>
+          </div>
+         </div>
+        </div>
+ 
+        <div class="form-group">
+         <label for="dob" class="cols-sm-2 control-label">Date of Birth</label>
+         <div class="cols-sm-10">
+          <div class="input-group">
+           <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+           <input type="date" class="form-control" name="dob" id="dob"  value="{{player.date_of_birth}}"/>
+          </div>
+         </div>
+        </div>
+
+       <div class="form-group ">
+         {% with messages = get_flashed_messages()  %}
+         {% if messages %}
+         {% for message in messages %}
+         <div class="alert alert-success alert-dismissible fade show" role="alert">
+           <a href="/updateBio" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+           {{ message }}
+           </button>
+         </div>
+         {% endfor %}
+         {% endif %}
+         {% endwith %}
+        <input type="submit" value="Update" class="form-control btn btn-primary " name="">
+         
+       </div>
+         
+      </form>
+
+{% endblock%}
