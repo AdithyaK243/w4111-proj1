@@ -63,4 +63,4 @@ Arguments
 
 ## Contact
 
-For any queries, please contact or [Adithya K Krishna](mailto:adithya.krishnakumar@gmail.com) or [Rohit V Gopalakrishnan](mailto:)
+For any queries, please contact or [Adithya K Krishna](mailto:adithya.krishnakumar@gmail.com) or [Rohit V Gopalakrishnan](mailto:rohitvg27@gmail.com)
