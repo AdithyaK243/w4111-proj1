@@ -1,0 +1,67 @@
+{% extends 'adminLayout.html' %}
+  
+{% block title %}Tennis Tournament Management System{% endblock %}
+  
+{% block content %}
+<h4>Available Tournaments</h4>
+<table class="table">
+    <tr class="table_header">
+        {% for header in data.headings %}
+        <th class="table_cell">{{header}}</th>
+        {% endfor %}
+    </tr>
+    {% for row in data.final %}
+    <tr class="table_row">
+        {% for cell in row %}
+        <td class="table_cell">{{cell}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<div class="container">
+    <div class="row main">
+     <div class="main-login main-center">
+      <h3> Edit registration Details </h3>
+      <form action="{{ url_for('openCloseRegistrations') }}" method="post" autocomplete="off"> 
+       <div class="form-group">
+        <label for="tournament_id" class="cols-sm-2 control-label">Tournament ID</label>
+        <div class="cols-sm-10">
+            <select id="tournament_id" name="tournament_id" class="round">
+                <option>--tournament id--</option> 
+                {% for tournament in data.final%}
+                <option value="{{tournament.tournament_id}}">{{tournament.tournament_id}}</option>
+                {% endfor %}
+            </select>
+        </div>
+       </div>
+
+        <div class="form-group">
+            <label for="status" class="cols-sm-2 control-label">Staus (Open/Closed)</label>
+            <div class="cols-sm-10">
+             <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" name="status" id="status"  placeholder="Enter the new status"/>
+             </div>
+            </div>
+        </div>
+
+       <div class="form-group ">
+         {% with messages = get_flashed_messages()  %}
+         {% if messages %}
+         {% for message in messages %}
+         <div class="alert alert-success alert-dismissible fade show" role="alert">
+           <a href="/openCloseRegistrations" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+           {{ message }}
+           </button>
+         </div>
+         {% endfor %}
+         {% endif %}
+         {% endwith %}
+        <input type="submit" value="Update" class="form-control btn btn-primary " name="">
+         
+       </div>
+         
+      </form>
+
+{% endblock%}

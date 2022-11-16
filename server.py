@@ -278,13 +278,49 @@ def createTour():
         
     else: return redirect(url_for('loginAdmin'))
 
-@app.route('/registrations')
-def registrations():
-    return render_template('adminPrivileges/registrations.html')
+@app.route('/openCloseRegistrations', methods=["GET", "POST"])
+def openCloseRegistrations():
+    if 'loggedin' in session:
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        
+        if request.method == "POST" and 'tournament_id' in request.form and 'status' in request.form:
+            tournament_id = request.form['tournament_id']
+            status = request.form['status']
 
-@app.route('/manageTourCat')
-def manageTourCat():
-    return render_template('adminPrivileges/manageTourCat.html')
+            if status not in ['Open', 'Closed']:
+                flash('Enter a valid status')
+            else:
+                if status == 'Open': status = 'Open  '
+                else: status = 'Closed'
+
+            cursor.execute('UPDATE register SET status = %s WHERE tournament_id = %s', (status, tournament_id))
+            conn.commit()
+            flash('Registration status successfully updated!')
+            return redirect(url_for('openCloseRegistrations'))
+
+        elif request.method == "POST":
+            flash('Please fill all details!')
+            
+        else:
+            cursor.execute('SELECT * FROM tournaments WHERE admin_incharge = %s', (session['admin_id'],))
+            tournaments = cursor.fetchall()
+
+            cursor.execute('SELECT * FROM register')
+            registrations = cursor.fetchall()
+
+            print(tournaments)
+            print(registrations)
+
+            final = []
+            for registration in registrations:
+                for tournament in tournaments:
+                    if registration[0] == tournament[0]: final.append(registration)
+
+            headings = ('Tounament_ID', 'Category', 'Status', 'Player Count')
+            data_dict = {'final': final, 'headings': headings}
+            return render_template('adminPrivileges/openCloseRegistrations.html', data=data_dict)
+
+    else: return redirect(url_for('loginAdmin'))
 
 @app.route('/logoutAdmin')
 def logoutAdmin():
