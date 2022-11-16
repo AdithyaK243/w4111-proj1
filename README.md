@@ -4,7 +4,7 @@
 
 <h1> COMS 4111: Project 1  </h1>
 
-<h3> Adithya K Krishna: akk2188 <br>, Rohit V Gopalakrishnan: rvg2119 </h3>
+<h3> Adithya K Krishna: akk2188 <br> Rohit V Gopalakrishnan: rvg2119 </h3>
 </samp>   
 
 </div>     
