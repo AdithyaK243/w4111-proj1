@@ -1,0 +1,64 @@
+{% extends 'playerLayout.html' %}
+  
+{% block title %}Tennis Tournament Management System{% endblock %}
+  
+{% block content %}
+<h3> Player Dashboard</h3>
+<p>Welcome back, {{ player.player.player_id}}!</p>
+<p> This is the player page you have been authorized and can access the features!</p>
+<div class="row main">
+    <div class="main-login main-center">
+    <p>Your account details are below:</p>
+    <table>
+        <tr>
+            <td>PlayerID:</td>
+            <td>{{ player.player.player_id }}</td>
+        </tr>
+        <tr>
+            <td>Name:</td>
+            <td>{{ player.player.first_name}} {{player.player.middle_initial}}  {{player.player.last_name}}</td>
+        </tr>
+        <tr>
+            <td>Gender:</td>
+            <td>{{ player.player.sex }}</td>
+        </tr>
+        <tr>
+            <td>Date of Birth:</td>
+            <td>{{ player.player.date_of_birth }}</td>
+        </tr>
+        <tr>
+            <td>Country:</td>
+            <td>{{ player.player.country }}</td>
+        </tr>
+        <tr>
+            <td>Points:</td>
+            <td>{{ player.player.points }}</td>
+        </tr>
+        <tr>
+            <td>Authorizer:</td>
+            <td>{{ player.player.authorizer }}</td>
+        </tr>
+        <tr>
+            <td>Authorization date:</td>
+            <td>{{ player.player.authorization_date }}</td>
+        </tr>
+    </table>
+    </div>
+</div>
+<br><br>
+<h4>Eligible Tournaments</h4>
+<table class="table">
+    <tr class="table_header">
+        {% for header in player.headings %}
+        <th class="table_cell">{{header}}</th>
+        {% endfor %}
+    </tr>
+    {% for row in player.ts %}
+    <tr class="table_row">
+        {% for cell in row %}
+        <td class="table_cell">{{cell}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{%endblock%}

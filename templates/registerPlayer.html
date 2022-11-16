@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>Register</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+  <!-- Google Fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+ </head>
+ <body style="background-color:#ccc;">
+  <nav class="site-header sticky-top py-1">
+    <div class="container d-flex flex-column flex-md-row justify-content-between">
+    <a class="py-2 d-none d-md-inline-block" href="{{ url_for('home') }}"><i class="fas fa-home"></i> Tennis Tournament Management System</a>
+    </div>
+  </nav>
+ <div class="container">
+   <div class="row main">
+    <div class="main-login main-center">
+    <h5>Register Player</h5>
+     <form action="{{ url_for('registerPlayer') }}" method="post" autocomplete="off"> 
+      <div class="form-group">
+       <label for="first_name" class="cols-sm-2 control-label">First Name</label>
+       <div class="cols-sm-10">
+        <div class="input-group">
+         <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+         <input type="text" class="form-control" name="first_name" id="first_name"  placeholder="Enter First Name"/>
+        </div>
+       </div>
+      </div>
+
+      <div class="form-group">
+        <label for="middle_initial" class="cols-sm-2 control-label">Middle Name</label>
+        <div class="cols-sm-10">
+         <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+          <input type="text" class="form-control" name="middle_initial" id="middle_initial"  placeholder="Enter Middle Name" maxlength="1"/>
+         </div>
+        </div>
+       </div>
+
+       <div class="form-group">
+        <label for="last_name" class="cols-sm-2 control-label">Last Name</label>
+        <div class="cols-sm-10">
+         <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+          <input type="text" class="form-control" name="last_name" id="last_name"  placeholder="Enter last_name Name"/>
+         </div>
+        </div>
+       </div>
+
+      <div class="form-group">
+       <label for="player_id" class="cols-sm-2 control-label">Player ID</label>
+       <div class="cols-sm-10">
+        <div class="input-group">
+         <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+         <input type="text" class="form-control" name="player_id" id="player_id" placeholder="Enter your Player ID" required>
+        </div>
+       </div>
+      </div>
+  
+      <div class="form-group">
+       <label for="password" class="cols-sm-2 control-label">Password</label>
+       <div class="cols-sm-10">
+        <div class="input-group">
+         <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+         <input type="password" class="form-control" name="password" placeholder="Password" id="password" required  placeholder="Enter your Password"/>
+        </div>
+       </div>
+      </div>
+
+      <div class="form-group">
+        <label for="gender" class="cols-sm-2 control-label">Gender</label>
+        <div class="cols-sm-10">
+         <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+          <input type="text" class="form-control" name="gender" id="gender" required  placeholder="M/F" maxlength="1"/>
+         </div>
+        </div>
+       </div>
+
+       <div class="form-group">
+        <label for="dob" class="cols-sm-2 control-label">Date of Birth</label>
+        <div class="cols-sm-10">
+         <div class="input-group">
+          <span class="input-group-addon"><i class="fas fa-birthday-cake" aria-hidden="true"></i></span>
+          <input type="date" class="form-control" name="dob" id="dob"  placeholder="Enter your date of birth"/>
+         </div>
+        </div>
+       </div>
+
+       <div class="form-group">
+        <label for="country" class="cols-sm-2 control-label">Country</label>
+        <div class="cols-sm-10">
+         <div class="input-group">
+          <span class="input-group-addon"><i class="fas fa-globe" aria-hidden="true"></i></span>
+          <input type="text" class="form-control" name="country" id="country"  placeholder="Enter country of origin"/>
+         </div>
+        </div>
+       </div>
+  
+      <div class="form-group ">
+        {% with messages = get_flashed_messages()  %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <a href="/registerPlayer" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          {{ message }}
+          </button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+       <input type="submit" value="Register" class="form-control btn btn-primary " name="">
+       <p style="padding:5px;"> Already have an account?
+       <a href="{{ url_for('loginPlayer') }}">Login</a></p>
+        
+      </div>
+        
+     </form>
+    </div>
+   </div>
+  </div>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  
+ </body>
+</html>

@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+  
+{% block title %}Tennis Tournament Management System{% endblock %}
+  
+{% block content %}
+<h1>Home</h1>
+
+<h3>Fixtures</h3>
+<table class="table">
+    <tr class="table_header">
+        {% for header in fixture_heading %}
+        <th class="table_cell">{{header}}</th>
+        {% endfor %}
+    </tr>
+    {% for row in fixtures %}
+    <tr class="table_row">
+        {% for cell in row %}
+        <td class="table_cell">{{cell}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Tournament</h3>
+<table class="table">
+    <tr class="table_header">
+        {% for header in tournament_heading %}
+        <th class="table_cell">{{header}}</th>
+        {% endfor %}
+    </tr>
+    {% for row in tournaments %}
+    <tr class="table_row">
+        {% for cell in row %}
+        <td class="table_cell">{{cell}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+  <p>Have an account? <br>
+     Login as Player: <a href="{{ url_for('loginPlayer') }}">Player Login</a> <br>
+     Login as Admin: <a href="{{ url_for('loginAdmin') }}">Admin Login</a>
+  </p>
+
+  <p>Don't have an account? <br>
+    Register as Player: <a href="{{ url_for('registerPlayer') }}">Player Registration</a> <br>
+    Register as Admin: <a href="{{ url_for('registerAdmin') }}">Admin Registration</a>
+ </p>
+{% endblock %}

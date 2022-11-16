@@ -1,0 +1,17 @@
+{% extends 'adminLayout.html' %}
+  
+{% block title %}Tennis Tournament Management System{% endblock %}
+  
+{% block content %}
+<h3> Admin Dashboard</h3>
+<p>Welcome back, {{ username }}!</p>
+<p> This is the admin page, here you can:
+  <ul>
+    <li>Authorize players (Only authorized players can participate in tournaments).</li>
+    <li>Ban players for breaking rules( It completely removes the player information from the player databased they would have to re-register to participate in the tournament).</li>
+    <li>Opening and closing registration periods for tournaments.</li>
+    <li>Creating tournaments for the players to sign up for.</li>
+    <li>Creating and managing the categories under each tournament.</li>
+  </ul>
+  </p>
+{%endblock%}

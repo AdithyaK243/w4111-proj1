@@ -1,0 +1,45 @@
+{% extends 'unauthPlayerLayout.html' %}
+  
+{% block title %}Tennis Tournament Management System{% endblock %}
+  
+{% block content %}
+<h3> Player Dashboard</h3>
+<p>Welcome back, {{ player.player_id}}!</p>
+<p> This is the player page:  </p>
+<p>   You have not yet been authorized! <br>
+    Reach out to an admin to get authorized and get access to register to tournaments, get live updates and many more!
+</p>
+<div class="row main">
+    <div class="main-login main-center">
+    <p>Your account details are below:</p>
+    <table>
+        <tr>
+            <td>PlayerID:</td>
+            <td>{{ player.player_id }}</td>
+        </tr>
+
+        <tr>
+            <td>Name:</td>
+            <td>{{ player.first_name}} {{player.middle_initial}}  {{player.last_name}}</td>
+        </tr>
+
+        <tr>
+            <td>Gender:</td>
+            <td>{{ player.sex }}</td>
+        </tr>
+        <tr>
+            <td>Date of Birth:</td>
+            <td>{{ player.date_of_birth }}</td>
+        </tr>
+        <tr>
+            <td>Country:</td>
+            <td>{{ player.country }}</td>
+        </tr>
+        <tr>
+            <td>Points:</td>
+            <td>{{ player.points }}</td>
+        </tr>
+    </table>
+    </div>
+</div>
+{% endblock %}
