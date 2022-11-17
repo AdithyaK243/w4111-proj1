@@ -5,7 +5,7 @@
 {% block content %}
 <h1>Home</h1>
 
-<h3>Fixtures</h3>
+<h3>Upcoming Matches</h3>
 <table class="table">
     <tr class="table_header">
         {% for header in fixture_heading %}
@@ -21,7 +21,7 @@
     {% endfor %}
 </table>
 
-<h3>Tournament</h3>
+<h3>Upcoming Tournaments</h3>
 <table class="table">
     <tr class="table_header">
         {% for header in tournament_heading %}
@@ -29,6 +29,38 @@
         {% endfor %}
     </tr>
     {% for row in tournaments %}
+    <tr class="table_row">
+        {% for cell in row %}
+        <td class="table_cell">{{cell}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Men's Ranking</h3>
+<table class="table">
+    <tr class="table_header">
+        {% for header in men_ranking_heading %}
+        <th class="table_cell">{{header}}</th>
+        {% endfor %}
+    </tr>
+    {% for row in men_rankings %}
+    <tr class="table_row">
+        {% for cell in row %}
+        <td class="table_cell">{{cell}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Women's Ranking</h3>
+<table class="table">
+    <tr class="table_header">
+        {% for header in women_ranking_heading %}
+        <th class="table_cell">{{header}}</th>
+        {% endfor %}
+    </tr>
+    {% for row in women_rankings %}
     <tr class="table_row">
         {% for cell in row %}
         <td class="table_cell">{{cell}}</td>

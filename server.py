@@ -69,17 +69,24 @@ def home():
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     print(engine.table_names())
     
-    cursor.execute("SELECT Tournament_ID, Category, Player_1_Name, Player_2_Name, Round FROM (SELECT * FROM Fixtures JOIN (SELECT Player_ID AS Player_1_ID, First_Name || ' ' || Last_Name AS Player_1_Name FROM Players) AS Player_1_Names ON Player_1=Player_1_ID) AS Fixtures_Temp JOIN (SELECT Player_ID AS Player_2_ID, First_Name || ' ' || Last_Name AS Player_2_Name FROM Players) AS Player_2_Names ON Player_2=Player_2_ID WHERE Player_1 IS NOT NULL AND Player_2 IS NOT NULL AND Winner IS NULL ORDER BY Tournament_ID ASC, Fixture_ID ASC")
+    cursor.execute("SELECT Tournament_Name, Category, Player1.First_Name || ' ' || Player1.Last_Name AS Player_1_Name, Player2.First_Name || ' ' || Player2.Last_Name AS Player_2_Name, Round FROM Fixtures, Tournaments, Players AS Player1, Players AS Player2 WHERE Tournaments.Tournament_ID=Fixtures.Tournament_ID AND Player1.Player_ID=Player_1 AND Player2.Player_ID=Player_2 AND Player_1 IS NOT NULL AND Player_2 IS NOT NULL AND Winner IS NULL ORDER BY Fixtures.Tournament_ID ASC, Fixture_ID ASC")
     fixtures = cursor.fetchall()
 
-    cursor.execute("SELECT * FROM tournaments")
+    cursor.execute("SELECT Tournaments.Tournament_ID, Tournament_Name, Tournament_Type, Category, Status, Location, Start_Date, End_Date, Court_Surface, Sponsor, Admin_Name, Date_of_Announcement FROM Tournaments, Tournament_Points, Register, Admins WHERE Tournaments.Tournament_ID=Register.Tournament_ID AND Tournaments.Tournament_Type_ID=Tournament_Points.Tournament_Type_ID AND Admin_Incharge=Admin_ID")
     tournaments = cursor.fetchall()
+
+    cursor.execute("SELECT RANK () OVER (ORDER BY Points DESC) Rank, Player_ID, First_Name || ' ' || Last_Name AS Player_Name, Country, Points FROM Players WHERE Sex='M' ORDER BY Points DESC")
+    men_rankings = cursor.fetchall()
+
+    cursor.execute("SELECT RANK () OVER (ORDER BY Points DESC) Rank, Player_ID, First_Name || ' ' || Last_Name AS Player_Name, Country, Points FROM Players WHERE Sex='F' ORDER BY Points DESC")
+    women_rankings = cursor.fetchall()
     cursor.close()
 
-    fixture_heading = ('Fixture_ID', 'Tournament_ID', 'Category', 'Player_1', 'Player_2', 'Round', 'Winner', 'Score')
-    tournament_headings = ('Tournament_ID', 'Tournament_Name', 'Tournament_Type', 'Location','Start_Date', 'End_Date', 'Court_Surface', 'Sponsor', 'Admin_Incharge', 'Date_of_Announcement')
+    fixture_heading = ('Tournament', 'Category', 'Player 1', 'Player 2', 'Round')
+    tournament_heading = ('ID', 'Tournament', 'Type', 'Category', 'Registration Status', 'Location','Start Date', 'End Date', 'Surface', 'Sponsor', 'Admin Incharge', 'Announcement Date')
+    ranking_heading = ('Rank', 'ID', 'Player', 'Country', 'Points')
 
-    dict = {'fixture_heading': fixture_heading, 'tournament_heading': tournament_headings, 'fixtures': fixtures, 'tournaments': tournaments}
+    dict = {'fixture_heading': fixture_heading, 'tournament_heading': tournament_heading, 'men_ranking_heading': ranking_heading, 'women_ranking_heading': ranking_heading, 'fixtures': fixtures, 'tournaments': tournaments, 'men_rankings': men_rankings, 'women_rankings': women_rankings}
     return render_template('home.html', **dict) 
 
     # # Check if user is loggedin
@@ -235,6 +242,7 @@ def createTour():
                 tournament_id = request.form['tournament_id']
                 tournament_name = request.form['tournament_name']
                 tournament_type = request.form['tournament_type']
+                category = request.form['category']
                 tournament_location = request.form['location']
                 tournament_start = request.form['start_date']
                 tournament_end = request.form['end_date']
@@ -259,6 +267,15 @@ def createTour():
                     flash('Please fill out the form!')
                 else:
                     cursor.execute("INSERT INTO tournaments (tournament_id, tournament_name, tournament_type_id, location, start_date, end_date, court_surface, sponsor, admin_incharge, date_of_announcement) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s)", (tournament_id, tournament_name, tournament_type, tournament_location, tournament_start, tournament_end, tournament_surface, tournament_sponsor, tournament_admin, tournament_announcement))
+                    if category == "Men's":
+                        cursor.execute("INSERT INTO Register (Tournament_ID, Category) VALUES (%s, %s)", (tournament_id, "Men's"))
+                    elif category == "Women's":
+                        cursor.execute("INSERT INTO Register (Tournament_ID, Category) VALUES (%s, %s)", (tournament_id, "Women's"))
+                    else:
+                        cursor.execute("INSERT INTO Register (Tournament_ID, Category) VALUES (%s, %s)",
+                                       (tournament_id, "Men's"))
+                        cursor.execute("INSERT INTO Register (Tournament_ID, Category) VALUES (%s, %s)",
+                                       (tournament_id, "Women's"))
                     conn.commit()
                     flash('Tounament successfully created!')
                     return redirect(url_for('createTour'))
@@ -305,7 +322,7 @@ def openCloseRegistrations():
             cursor.execute('SELECT * FROM tournaments WHERE admin_incharge = %s', (session['admin_id'],))
             tournaments = cursor.fetchall()
 
-            cursor.execute('SELECT * FROM register')
+            cursor.execute('SELECT register.tournament_id, tournament_name, category, status, player_count FROM register, tournaments WHERE register.tournament_id=tournaments.tournament_id')
             registrations = cursor.fetchall()
 
             print(tournaments)
@@ -316,7 +333,7 @@ def openCloseRegistrations():
                 for tournament in tournaments:
                     if registration[0] == tournament[0]: final.append(registration)
 
-            headings = ('Tounament_ID', 'Category', 'Status', 'Player Count')
+            headings = ('ID', 'Tournament', 'Category', 'Status', 'Player Count')
             data_dict = {'final': final, 'headings': headings}
             return render_template('adminPrivileges/openCloseRegistrations.html', data=data_dict)
 
@@ -433,11 +450,15 @@ def player():
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     
     if 'loggedin' in session:   
-        cursor.execute('SELECT * FROM register')
+        cursor.execute('SELECT register.tournament_id, tournament_name, category, status, player_count FROM register, tournaments WHERE register.tournament_id=tournaments.tournament_id')
         tournaments = cursor.fetchall()
 
         cursor.execute('SELECT * FROM players WHERE player_id = %s', (session['player_id'], ))
         player = cursor.fetchone()
+
+        cursor.execute(
+            "SELECT RANK () OVER (ORDER BY Points DESC) Rank, Player_ID, First_Name || ' ' || Last_Name AS Player_Name, Country, Points FROM Players WHERE Sex=%s ORDER BY Points DESC", (player['sex']))
+        rankings = cursor.fetchall()
 
         ts = []
         for tournament in tournaments: 
@@ -446,8 +467,10 @@ def player():
             else: cat = "F"
             if tournament['status'] == 'Open  ' and cat == player['sex'] : ts.append(tournament)
 
-        headings = ('Tounament_ID', 'Category', 'Status', 'Player Count')
-        data_dict = {'player': player, 'ts': ts, 'headings': headings}
+        headings = ('ID', 'Tournament', 'Category', 'Status', 'Player Count')
+        ranking_heading = ('Rank', 'ID', 'Player', 'Country', 'Points')
+
+        data_dict = {'player': player, 'ts': ts, 'headings': headings, 'ranking_heading': ranking_heading, 'rankings': rankings}
 
         if player['authorizer'] == None:
             return render_template('unauth_player.html', player = player) 

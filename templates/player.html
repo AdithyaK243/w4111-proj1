@@ -61,4 +61,20 @@
     </tr>
     {% endfor %}
 </table>
+
+<h4>Women's Ranking</h4>
+<table class="table">
+    <tr class="table_header">
+        {% for header in player.ranking_heading %}
+        <th class="table_cell">{{header}}</th>
+        {% endfor %}
+    </tr>
+    {% for row in player.rankings %}
+    <tr class="table_row">
+        {% for cell in row %}
+        <td class="table_cell">{{cell}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
 {%endblock%}
