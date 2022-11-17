@@ -12,6 +12,8 @@
 ## Tennis Tournament Management System
 The link to our website is : http://34.138.130.126:8111/
 
+The link to our GitHub repository : https://github.com/rvg-18227/w4111-proj1
+
 ## Database
 Our database is stored in postgresql, you can access it with the URI mentioned below. The URI should be in the format of:
 
