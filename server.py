@@ -69,7 +69,7 @@ def home():
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     print(engine.table_names())
     
-    cursor.execute("SELECT * FROM fixtures")
+    cursor.execute("SELECT Tournament_ID, Category, Player_1_Name, Player_2_Name, Round FROM (SELECT * FROM Fixtures JOIN (SELECT Player_ID AS Player_1_ID, First_Name || ' ' || Last_Name AS Player_1_Name FROM Players) AS Player_1_Names ON Player_1=Player_1_ID) AS Fixtures_Temp JOIN (SELECT Player_ID AS Player_2_ID, First_Name || ' ' || Last_Name AS Player_2_Name FROM Players) AS Player_2_Names ON Player_2=Player_2_ID WHERE Player_1 IS NOT NULL AND Player_2 IS NOT NULL AND Winner IS NULL ORDER BY Tournament_ID ASC, Fixture_ID ASC")
     fixtures = cursor.fetchall()
 
     cursor.execute("SELECT * FROM tournaments")
