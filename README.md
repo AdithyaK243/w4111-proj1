@@ -2,18 +2,18 @@
 
 <samp>
 
-<h1> COMS 4111: Project 1 - Tennis Tournament Management System</h1>
+<h1> COMS W4111: Project 1 - Tennis Tournament Management System</h1>
 
 <h3> Adithya K Krishna: akk2188 <br> Rohit V Gopalakrishnan: rvg2119 </h3>
 </samp>   
 
 </div>     
 
-
+## Tennis Tournament Management System
+The link to our website is : http://34.138.130.126:8111/
 
 ## Database
-Our database is stored in postgresql, you can access it with the URI mentioned below
-XXX: The URI should be in the format of:
+Our database is stored in postgresql, you can access it with the URI mentioned below. The URI should be in the format of:
 
     postgresql://USER:PASSWORD@34.75.94.195/proj1part2
 
