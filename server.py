@@ -404,6 +404,11 @@ def registerPlayer():
         dob = request.form['dob']
         country = request.form['country']
 
+        cursor.execute("SELECT Country_Name FROM countries")
+        res = cursor.fetchall()
+        countries = []
+        for item in res: countries.append(item[0])
+
         cursor.execute('SELECT * FROM players WHERE player_id = %s', (player_id,))
         account = cursor.fetchone()
         print(account)
@@ -420,6 +425,8 @@ def registerPlayer():
             flash('PlayerID must contain only characters and numbers!')
         elif not player_id or not password or not firstname:
             flash('Please fill out the form!')
+        elif country not in countries:
+            flash("Enter a valid country name")
         else:
             con = ''
             sub_cur = g.conn.execute("SELECT country_id FROM countries WHERE Country_Name = %s", (country))
